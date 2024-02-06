@@ -2,7 +2,7 @@
 #include <DHT.h>
 
 /* Номер пина датчика температуры и влажности */
-uint8_t DHTPin = 10;
+uint8_t DHTPin = 27;
 
 #define DHTTYPE DHT11
 DHT dht(DHTPin, DHTTYPE);
