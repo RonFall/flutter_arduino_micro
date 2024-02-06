@@ -37,7 +37,7 @@ void initFirebaseService(String deviceApiKey, String deviceDatabaseUrl, String d
 
 void loopSendDataToRTDB(int temp, int hum)
 {
-  String basePath = "/devices/antonov";
+  String basePath = "/devices";
   String tempPath = basePath + "/temperature";
   String humpPath = basePath + "/humidity";
 
