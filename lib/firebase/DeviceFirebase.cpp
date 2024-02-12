@@ -1,10 +1,25 @@
 #include "DeviceFirebase.h"
 #include <addons/TokenHelper.h>
 #include <addons/RTDBHelper.h>
+#include <time.h>
 
 FirebaseData fireData;
 FirebaseConfig fireConfig;
 FirebaseAuth fireAuth;
+
+unsigned long epochTime;
+
+// Получаем текущее время с сервера ntp
+unsigned long getTime() {
+  time_t now;
+  struct tm timeinfo;
+  if (!getLocalTime(&timeinfo)) {
+    return(0);
+  }
+  time(&now);
+
+  return now;
+}
 
 void initFirebaseService(String deviceApiKey, String deviceDatabaseUrl, String deviceEmail, String devicePass)
 {
@@ -40,11 +55,17 @@ void loopSendDataToRTDB(int temp, int hum)
   String basePath = "/devices";
   String tempPath = basePath + "/temperature";
   String humpPath = basePath + "/humidity";
+  String timePath = basePath + "/timestamp";
+
+  epochTime = getTime();
 
   if (Firebase.ready())
   {
     Firebase.setInt(fireData, tempPath, temp);
     Firebase.setInt(fireData, humpPath, hum);
-    delay(100);
+    Firebase.setInt(fireData, timePath, epochTime);
+
+    // Задержка в 1 минуту
+    delay(60000);
   }
 }
